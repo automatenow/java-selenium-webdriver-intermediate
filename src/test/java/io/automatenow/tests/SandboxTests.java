@@ -246,22 +246,22 @@ public class SandboxTests extends BaseTest {
     }
 
     @Test(description = "Submits a form using JSON data", dataProviderClass = DataUtil.class, dataProvider = "dataProvider1")
-    public void testSubmitForm(HashMap<String, String> hashMap) {
+    public void testSubmitForm(HashMap<String, String> testData) {
         FormFieldsPage formFields = sandboxPage.clickFormFields()
-                .setInputFieldText(hashMap.get("Input Field"))
-                .selectCheckbox(hashMap.get("Checkbox"))
-                .selectRadioButton(hashMap.get("Radio Button"))
-                .selectFromDropdown(hashMap.get("Dropdown"))
-                .setEmail(hashMap.get("Email"))
-                .setMessage(hashMap.get("Message"))
+                .setInputFieldText(testData.get("Input Field"))
+                .selectCheckbox(testData.get("Checkbox"))
+                .selectRadioButton(testData.get("Radio Button"))
+                .selectFromDropdown(testData.get("Dropdown"))
+                .setEmail(testData.get("Email"))
+                .setMessage(testData.get("Message"))
                 .clickSubmit();
 
         dismissPopup();
     }
 
     @Test(description = "Submits a form using JSON array data", dataProviderClass = DataUtil.class, dataProvider = "dataProvider2")
-    public void testSubmitForm2(String data) {
-        String[] formInfo = data.split(",");
+    public void testSubmitForm2(String testData) {
+        String[] formInfo = testData.split(",");
 
         FormFieldsPage formFields = sandboxPage.clickFormFields()
                 .setInputFieldText(formInfo[0])
@@ -276,30 +276,30 @@ public class SandboxTests extends BaseTest {
     }
 
     @Test(dataProviderClass = DataUtil.class, dataProvider = "dataProvider3")
-    public void testSubmitForm3(HashMap<String, String> hashMap) {
+    public void testSubmitForm3(HashMap<String, String> testData) {
         FormFieldsPage formFields = sandboxPage.clickFormFields()
-                .setInputFieldText(hashMap.get("Input Field"))
-                .selectCheckbox(hashMap.get("Checkbox"))
-                .selectRadioButton(hashMap.get("Radio Button"))
-                .selectFromDropdown(hashMap.get("Dropdown"))
-                .setEmail(hashMap.get("Email"))
-                .setMessage(hashMap.get("Message"))
+                .setInputFieldText(testData.get("Input Field"))
+                .selectCheckbox(testData.get("Checkbox"))
+                .selectRadioButton(testData.get("Radio Button"))
+                .selectFromDropdown(testData.get("Dropdown"))
+                .setEmail(testData.get("Email"))
+                .setMessage(testData.get("Message"))
                 .clickSubmit();
 
         dismissPopup();
     }
 
     @Test(dataProviderClass = DataUtil.class, dataProvider = "dataProvider4")
-    public void testVerifyTableItems(HashMap<String, String> hashMap) {
+    public void testVerifyTableItems(HashMap<String, String> testData) {
         TablesPage tables = sandboxPage.clickTables();
 
         String price = tables.getItemPrice("Oranges");
-        assertEquals(price, hashMap.get("Oranges"), "Price mismatch");
+        assertEquals(price, testData.get("Oranges"), "Price mismatch");
 
         price = tables.getItemPrice("Laptop");
-        assertEquals(price, hashMap.get("Laptop"), "Price mismatch");
+        assertEquals(price, testData.get("Laptop"), "Price mismatch");
 
         price = tables.getItemPrice("Marbles");
-        assertEquals(price, hashMap.get("Marbles"), "Price mismatch");
+        assertEquals(price, testData.get("Marbles"), "Price mismatch");
     }
 }
