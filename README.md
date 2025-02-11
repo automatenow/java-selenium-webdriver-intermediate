@@ -4,7 +4,7 @@ Welcome to the Java Selenium WebDriver Intermediate Level repository!\
 
 This repository was created by [Marco A. Cruz](http://www.linkedin.com/in/marco-a-cruz) and is designed to help you discover more of what Selenium has to 
 offer. This is a continuation of the [Intro to Java Selenium repo](https://github.com/automatenow/java-selenium-webdriver-intro) 
-and [video series](https://youtube.com/playlist?list=PLjfhFHeUQDOj9T1cRFf5z7SqxcDPeAAjA).
+and that [video series](https://youtube.com/playlist?list=PLjfhFHeUQDOj9T1cRFf5z7SqxcDPeAAjA).
 
 **Follow along by watching the videos in this [automateNow Intermediate Selenium WebDriver Video Tutorials](https://youtube.com/playlist?list=PLjfhFHeUQDOjY-hebY9t3zJ90IdrGU8SJ&si=_BgEoGPTkNxpBLiz)**.
 
