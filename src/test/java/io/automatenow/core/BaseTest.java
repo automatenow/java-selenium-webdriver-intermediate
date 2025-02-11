@@ -17,7 +17,6 @@ public class BaseTest extends BasePage {
     protected JavaScriptDelaysPage javaScriptDelaysPage;
     protected ModalsPage modalsPage;
     protected PopupsPage popupsPage;
-    protected SearchBoxesPage searchBoxesPage;
     protected TablesPage tablesPage;
     protected NavigationBar navBar;
     protected HomePage homePage;
@@ -37,7 +36,6 @@ public class BaseTest extends BasePage {
         javaScriptDelaysPage = new JavaScriptDelaysPage();
         modalsPage = new ModalsPage();
         popupsPage = new PopupsPage();
-        searchBoxesPage = new SearchBoxesPage();
         tablesPage = new TablesPage();
         navBar = new NavigationBar();
         homePage = new HomePage();

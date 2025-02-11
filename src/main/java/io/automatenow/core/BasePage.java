@@ -43,6 +43,7 @@ public class BasePage {
             e.printStackTrace();
         } finally {
             try {
+                assert fis != null;
                 fis.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -119,7 +120,7 @@ public class BasePage {
     public String getText(By locator) {
         String displayedText = driver.findElement(locator).getText();
         if (displayedText.isEmpty()) {
-            return driver.findElement(locator).getDomAttribute("value");
+            return driver.findElement(locator).getDomProperty("value");
         } else {
             return displayedText;
         }

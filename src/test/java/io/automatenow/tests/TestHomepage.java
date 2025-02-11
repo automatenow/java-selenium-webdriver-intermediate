@@ -11,13 +11,13 @@ import static org.testng.Assert.*;
  */
 //@Listeners(TestListener.class)
 @Listeners({ExtentITestListenerClassAdapter.class})
-public class HomepageTests extends BaseTest {
+public class TestHomepage extends BaseTest {
 
 //    @Test(description = "Verify page title")
 //    @Test(groups = { "tagName", "tag:another-tagName", "author:authorName", "device:deviceName" })
     @Test(groups = { "tagName", "t:another-tagName", "a:authorName", "d:deviceName" })
     public void testPageTile() {
-        String pageTitle = homePage.getPageTitle();
+        String pageTitle = getPageTitle();
         assertEquals(pageTitle, "Learn and Practice Automation | automateNow", "The page title did not match!");
     }
 

@@ -16,11 +16,11 @@ import static org.testng.Assert.*;
  * @author Marco A. Cruz
  */
 @Listeners(TestListener.class)
-public class SandboxTests extends BaseTest {
+public class TestSandbox extends BaseTest {
 
     @Test(description = "Verify the page title")
     public void testPageTitle() {
-        String title = sandboxPage.getPageTitle();
+        String title = getPageTitle();
         assertTrue(title.contains("Automation"), "Page title did not match");
     }
 
@@ -204,7 +204,7 @@ public class SandboxTests extends BaseTest {
     @Test(description = "Uploads a file")
     public void testFileUpload() {
         sandboxPage.clickFileUpload()
-                .uploadFile("C:/Users/Marco/Desktop/readme.txt");  // Change the path to a file on your computer
+                .uploadFile("C:/Users/<path_to_your_file>");  // Change the path to a file on your computer
     }
 
     @Test(description = "Downloads a file")
@@ -227,15 +227,13 @@ public class SandboxTests extends BaseTest {
     public void testTablePagination() {
         TablesPage tables = sandboxPage.clickTables()
                 .sortByCountry();
-        String populationUK = tables.getPopulation("United Kingdom" + "");
+        String populationUK = tables.getPopulation("United Kingdom");
         assertNotEquals(populationUK, "-1", "The country was not found on the list!");
-//        System.out.println("The population for the United Kingdom is " + populationUK + " million.");
         log.info("The population for the United Kingdom is " + populationUK + " million.");
     }
 
     @Test(description = "Tests setting/clearing cookies")
     public void testSetAndClearCookies() {
-//        String cookieName = "viewed_cookie_policy";
         String cookieName = properties.getProperty("cookiePolicy");
         setCookie(cookieName, "yes");
         Cookie myCookie = getCookie(cookieName);

@@ -19,6 +19,7 @@ public class TablesPage extends BasePage {
     }
 
     public TablesPage sortByCountry() {
+        scrollElementIntoView(countrySort);
         click(countrySort);
         return this;
     }
@@ -39,7 +40,7 @@ public class TablesPage extends BasePage {
             if (!countryListedOnCurrentPage.isEmpty()) {
                 foundCountry = true;
             } else if (disabledNextBtn.isEmpty()) {
-                scrollElementIntoView(nextBtn);  // This is sometimes needed!
+                scrollElementIntoView(nextBtn);
                 click(nextBtn);
             } else {
                 return "-1";

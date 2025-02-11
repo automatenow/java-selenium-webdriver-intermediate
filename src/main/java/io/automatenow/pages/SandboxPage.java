@@ -23,10 +23,6 @@ public class SandboxPage extends BasePage {
     private final By iframes = By.xpath("//a[contains(text(),'Iframes')]");
     private final By windowOpsBtn = By.xpath("//a[contains(text(),'Window Operations')]");
 
-    public String getPageTitle() {
-        return driver.getTitle();
-    }
-
     public void switchToNewWindow() {
         // Get current window handle
         String currentWindow = getWindowHandle();
@@ -36,7 +32,7 @@ public class SandboxPage extends BasePage {
 
         // Switch to new window
         Iterator<String> iter = handles.iterator();
-        String newWindow = null;
+        String newWindow;
         while (iter.hasNext()) {
             newWindow = iter.next();
             if (!currentWindow.equals(newWindow)) {
