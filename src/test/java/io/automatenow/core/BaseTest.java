@@ -25,6 +25,9 @@ public class BaseTest extends BasePage {
     protected FormFieldsPage formFields;
     protected WindowOperationsPage windowOperationsPage;
 
+    /**
+     * This method runs before the suite starts, and it initializes all the page objects.
+     */
     @BeforeSuite
     public void suiteSetup() {
         calendarsPage = new CalendarsPage();
@@ -43,11 +46,17 @@ public class BaseTest extends BasePage {
         windowOperationsPage = new WindowOperationsPage();
     }
 
+    /**
+     * This method runs before every test
+     */
     @BeforeTest
     public void setup() {
         Assert.assertTrue(goToHomepage(), "An error occurred while navigating to the the homepage");
     }
 
+    /**
+     * This method runs after every test
+     */
     @AfterTest
     public void tearDown() {
         closeBrowser();

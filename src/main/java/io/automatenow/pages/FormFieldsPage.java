@@ -13,7 +13,6 @@ public class FormFieldsPage extends BasePage {
     private final By emailField = By.id("email");
     private final By messageField = By.id("message");
     private final By submitBtn = By.id("submit-btn");
-    private final By confirmationMsg = By.xpath("//div[@id='contact-form-1103']//h3[1]");
 
     public FormFieldsPage setInputFieldText(String text) {
         setText(inputField, text);
@@ -90,9 +89,5 @@ public class FormFieldsPage extends BasePage {
         scrollElementIntoView(submitBtn);
         click(submitBtn);
         return this;
-    }
-
-    public String getConfirmationMessage() {
-        return getText(confirmationMsg);
     }
 }

@@ -32,7 +32,7 @@ public class DataUtil extends BaseTest {
 
         // Read JSON file
         try {
-            Object obj = parser.parse(new FileReader("src/main/resources/testData.json"));
+            Object obj = parser.parse(new FileReader("src/test/resources/testData.json"));
             jsonObject = (JSONObject) obj;
         } catch (IOException | ParseException exception) {
             exception.printStackTrace();
@@ -66,7 +66,7 @@ public class DataUtil extends BaseTest {
         // Read JSON file
         Object obj = null;
         try {
-            obj = parser.parse(new FileReader("src/main/resources/testData2.json"));
+            obj = parser.parse(new FileReader("src/test/resources/testData2.json"));
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -100,7 +100,7 @@ public class DataUtil extends BaseTest {
 
     @DataProvider
     public static Object[][] dataProvider3() {
-        return readJSON("src/main/resources/testData3.json", "data 1");
+        return readJSON("src/test/resources/testData3.json", "data 1");
     }
 
     @DataProvider

@@ -119,7 +119,7 @@ public class BasePage {
     public String getText(By locator) {
         String displayedText = driver.findElement(locator).getText();
         if (displayedText.isEmpty()) {
-            return driver.findElement(locator).getAttribute("value");
+            return driver.findElement(locator).getDomAttribute("value");
         } else {
             return displayedText;
         }
