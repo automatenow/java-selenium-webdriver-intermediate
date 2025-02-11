@@ -1,6 +1,6 @@
 # Java Selenium WebDriver - Intermediate Level
 
-Welcome to the Java Selenium WebDriver Intermediate Level repository!\
+Welcome to the Java Selenium WebDriver Intermediate Level repository!
 
 This repository was created by [Marco A. Cruz](http://www.linkedin.com/in/marco-a-cruz) and is designed to help you discover more of what Selenium has to 
 offer. This is a continuation of the [Intro to Java Selenium repo](https://github.com/automatenow/java-selenium-webdriver-intro) 
