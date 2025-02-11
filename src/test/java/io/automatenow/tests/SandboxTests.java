@@ -247,7 +247,7 @@ public class SandboxTests extends BaseTest {
 
     @Test(description = "Submits a form using JSON data", dataProviderClass = DataUtil.class, dataProvider = "dataProvider1")
     public void testSubmitForm(HashMap<String, String> testData) {
-        FormFieldsPage formFields = sandboxPage.clickFormFields()
+        sandboxPage.clickFormFields()
                 .setInputFieldText(testData.get("Input Field"))
                 .selectCheckbox(testData.get("Checkbox"))
                 .selectRadioButton(testData.get("Radio Button"))
@@ -263,7 +263,7 @@ public class SandboxTests extends BaseTest {
     public void testSubmitForm2(String testData) {
         String[] formInfo = testData.split(",");
 
-        FormFieldsPage formFields = sandboxPage.clickFormFields()
+        sandboxPage.clickFormFields()
                 .setInputFieldText(formInfo[0])
                 .selectCheckbox(formInfo[1])
                 .selectRadioButton(formInfo[2])
@@ -277,7 +277,7 @@ public class SandboxTests extends BaseTest {
 
     @Test(dataProviderClass = DataUtil.class, dataProvider = "dataProvider3")
     public void testSubmitForm3(HashMap<String, String> testData) {
-        FormFieldsPage formFields = sandboxPage.clickFormFields()
+        sandboxPage.clickFormFields()
                 .setInputFieldText(testData.get("Input Field"))
                 .selectCheckbox(testData.get("Checkbox"))
                 .selectRadioButton(testData.get("Radio Button"))
