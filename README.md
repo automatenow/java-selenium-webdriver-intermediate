@@ -6,7 +6,7 @@ This repository was created by [Marco A. Cruz](http://www.linkedin.com/in/marco-
 offer. This is a continuation of the [Intro to Java Selenium repo](https://github.com/automatenow/java-selenium-webdriver-intro) 
 and [video series](https://youtube.com/playlist?list=PLjfhFHeUQDOj9T1cRFf5z7SqxcDPeAAjA).
 
-**Follow along by watching the videos in this [automateNow Intermediate Selenium WebDriver Video Tutorials](https://youtube.com/playlist?list=PLjfhFHeUQDOj9T1cRFf5z7SqxcDPeAAjA)**.
+**Follow along by watching the videos in this [automateNow Intermediate Selenium WebDriver Video Tutorials](https://youtube.com/playlist?list=PLjfhFHeUQDOjY-hebY9t3zJ90IdrGU8SJ&si=_BgEoGPTkNxpBLiz)**.
 
 ## Overview
 This repository provides:
@@ -44,4 +44,4 @@ cd java-selenium-webdriver-intermediate
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## About automateNow
-[autoamteNow](https://automatenow.io/) is a leading learning platform catering to the needs of software testers. We are dedicated to empowering testers with the necessary skills and resources to excel in test automation and beyond.
+[automateNow](https://automatenow.io/) is a leading learning platform catering to the needs of software testers. We are dedicated to empowering testers with the necessary skills and resources to excel in test automation and beyond.
