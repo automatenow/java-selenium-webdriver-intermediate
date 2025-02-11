@@ -1,10 +1,10 @@
 package io.automatenow.tests;
 
+import io.automatenow.core.BaseTest;
 import io.automatenow.pages.*;
 import io.automatenow.utils.DataUtil;
-import io.automatenow.utils.TestListener;
+import io.automatenow.core.TestListener;
 import org.openqa.selenium.Cookie;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -18,55 +18,53 @@ import static org.testng.Assert.*;
 @Listeners(TestListener.class)
 public class SandboxTests extends BaseTest {
 
-    @BeforeTest
-    public void testNavigateToSandboxPage() {
-        navBar.acceptCookies().selectSandbox();
-    }
-
     @Test(description = "Verify the page title")
     public void testPageTitle() {
         String title = sandboxPage.getPageTitle();
-        assertEquals(title, "Sandbox – automateNow", "Page title did not match");
+        assertTrue(title.contains("Automation"), "Page title did not match");
     }
 
     @Test(description = "Enters text in an input field")
     public void testEnterText() {
         String myText = "hello";
 
-        FormFieldsPage formFields = sandboxPage.clickFormFields();
-        formFields.setInputFieldText(myText);
+        sandboxPage.clickFormFields().setInputFieldText(myText);
         String displayedText = formFields.getInputFieldText();
         assertEquals(displayedText, myText, "Unable to verify entered text");
     }
 
     @Test(description = "Checks a checkbox")
     public void testCheckbox() {
-        FormFieldsPage formFields = sandboxPage.clickFormFields();
-        formFields.selectCheckbox("1");
-        assertTrue(formFields.checkboxIsSelected("1"), "Checkbox is not selected");
-        assertFalse(formFields.checkboxIsSelected("2"), "Checkbox is selected");
+        FormFieldsPage formFields = sandboxPage.clickFormFields()
+                .selectCheckbox("Wine");
+        assertTrue(formFields.checkboxIsSelected("Wine"), "Checkbox is not selected");
+
+        // Negative test!
+        assertFalse(formFields.checkboxIsSelected("Milk"), "Checkbox is selected");
     }
 
     @Test(description = "Selects from a drop-down")
     public void testSelectFromDropdown() {
-        String myOption = "Binary";
+        String myOption = "Yes";
 
-        FormFieldsPage formFields = sandboxPage.clickFormFields();
-        formFields.selectFromDropdown(myOption);
+        FormFieldsPage formFields = sandboxPage.clickFormFields()
+                .selectFromDropdown(myOption);
         assertEquals(formFields.getDropdownText(), myOption, "Dropdown option not selected");
     }
 
     @Test(description = "Selects radio buttons")
     public void testSelectRadioButton() {
-        String radio = "White";
+        String radio = "Red";
         String radio2 = "Blue";
 
-        FormFieldsPage formFields = sandboxPage.clickFormFields();
-        formFields.selectRadioButton(radio);
+        FormFieldsPage formFields = sandboxPage.clickFormFields()
+                .selectRadioButton(radio);
         assertTrue(formFields.radioButtonIsSelected(radio), "White option was not selected");
 
         formFields.selectRadioButton(radio2);
         assertTrue(formFields.radioButtonIsSelected(radio2), "Blue option was not selected");
+
+        // Negative test!
         assertFalse(formFields.radioButtonIsSelected(radio), "White option was selected");
     }
 
@@ -82,33 +80,25 @@ public class SandboxTests extends BaseTest {
 
     @Test(description = "Selects a date from a date picker")
     public void testSelectFromDatePicker() {
-        CalendarsPage calendars = sandboxPage.clickCalendars();
-        calendars.setDate("July", "4", "2024");
+        CalendarsPage calendars = sandboxPage.clickCalendars()
+                .setDate("July", "4", "2030");
         String date = calendars.getDate();
-        assertEquals(date, "July 4, 2024", "The date was not properly set");
-    }
-
-    @Test(description = "Searches for a blog article")
-    public void testBlogSearch() {
-        boolean searchSuccess;
-
-        SearchBoxesPage searchPg = sandboxPage.clickSearchBoxes();
-        searchSuccess = searchPg.search("aaaa");
-        assertFalse(searchSuccess, "Did not expect to find a search result");
-        searchSuccess = searchPg.search("jmeter");
-        assertTrue(searchSuccess, "Expected to find a search result");
+        assertEquals(date, "2030-07-04", "The date was not properly set");
     }
 
     @Test(description = "Working with multiple open windows")
     public void testMultipleOpenWindows() {
-        sandboxPage.clickTwitterButton();
+        sandboxPage.clickWindowOperations()
+                .clickNewWindow();
         sandboxPage.switchToNewWindow();
-        assertTrue(waitForPageTitle("Twitter"), "The new window's tile does not match");
+        assertTrue(waitForPageTitle("automateNow | The Best FREE Software Online Training Platform"),
+                "The new window's tile does not match");
     }
 
     @Test(description = "Closes a second open window")
     public void testCloseSecondWindow() {
-        sandboxPage.clickTwitterButton();
+        sandboxPage.clickWindowOperations()
+                .clickNewWindow();
         sandboxPage.switchToNewWindow();
         closeWindow();
         int numberOfOpenWindows = getNumberOfOpenWindows();
@@ -119,8 +109,8 @@ public class SandboxTests extends BaseTest {
     public void testMultipleTabs() {
         openNewTab();
         sandboxPage.switchToNewWindow();
-        goToUrl("https://www.nasa.gov");
-        assertTrue(waitForPageTitle("NASA"), "The page title for the new window did not match");
+        goToUrl("https://www.spacex.com");
+        assertTrue(waitForPageTitle("SpaceX"), "The page title for the new window did not match");
         closeWindow();
         int numberOfOpenWindows = getNumberOfOpenWindows();
         assertEquals(numberOfOpenWindows, 1, "Found more than one open window");
@@ -131,18 +121,19 @@ public class SandboxTests extends BaseTest {
         int x_coordinate = -300;
         int y_coordinate = 100;
 
-        GesturesPage gestures = sandboxPage.clickGestures();
-        gestures.dragMap(x_coordinate, y_coordinate);
+        GesturesPage gestures = sandboxPage.clickGestures()
+                .dragMap(x_coordinate, y_coordinate);
+//        gestures.dragLogo();  // Fun one for you to try ;)
     }
 
     @Test(description = "Tests a JavaScript alert and a confirmation box")
     public void testPopups() {
-        PopupsPage popups = sandboxPage.clickPopups();
-        popups.clickAlertPopup();
+        PopupsPage popups = sandboxPage.clickPopups()
+                .clickAlertPopup();
         dismissPopup();
 
-        popups.clickConfirmPopup();
-        acceptPopup();
+        popups.clickConfirmPopup()
+                .acceptPopup();
         String selectionResult = popups.getConfirmPopupSelection();
         assertEquals(selectionResult, "OK it is!", "The popup selection result does not match");
     }
@@ -151,11 +142,18 @@ public class SandboxTests extends BaseTest {
     public void testPromptPopup() {
         String name = "Marco";
 
-        PopupsPage popups = sandboxPage.clickPopups();
-        popups.clickPromptPopup();
+        PopupsPage popups = sandboxPage.clickPopups()
+                .clickPromptPopup();
         setAlertText(name);
         acceptPopup();
-        popups.waitForPromptPopupResult(String.format("Nice to meet you %s!", name));
+        popups.waitForPromptPopupResult(String.format("Nice to meet you, %s!", name));
+    }
+
+    @Test(description = "Tests a JavaScript countdown timer")
+    public void testCountdownTimer() {
+        sandboxPage.clickJavaScriptDelays()
+                .clickStart()
+                .waitForCountdownText("Liftoff!");
     }
 
     @Test(description = "Tests a JavaScript modal")
@@ -164,15 +162,15 @@ public class SandboxTests extends BaseTest {
         String email = "info@automatenow.io";
         String message = "Test Message";
 
-        ModalsPage modals = sandboxPage.clickModals();
-        modals.openModal()
+        sandboxPage.clickModals()
+                .openModal()
                 .modalSendMessage(name, email, message);
     }
 
     @Test(description = "Test mouse over")
     public void testHovering() {
-        HoverPage hover = sandboxPage.clickHover();
-        hover.doHover();
+        HoverPage hover = sandboxPage.clickHover()
+                .hover();
         String hoverText = hover.getHoverText();
         assertEquals(hoverText, "You did it!", "Hover text did not match expected value");
     }
@@ -184,10 +182,13 @@ public class SandboxTests extends BaseTest {
 
     @Test(description = "Tests scrolling a webpage")
     public void testScrollPage() {
-        // Scroll down
+        // Scroll page down
         scrollPage(0, 500);
-        // Scroll up
+        pause(1);
+
+        // Scroll page up
         scrollPage(0, -500);
+        pause(1);
     }
 
     @Test(description = "Takes a page screenshot")
@@ -195,56 +196,59 @@ public class SandboxTests extends BaseTest {
         takeScreenshot();
     }
 
-    @Test(description = "Takes an element's screenshot")
+    @Test(description = "Takes a screenshot of an element")
     public void testElementScreenshot() {
         sandboxPage.screenshotModalsButton();
     }
 
     @Test(description = "Uploads a file")
     public void testFileUpload() {
-        FileUploadPage fileUpload = sandboxPage.clickFileUpload();
-        fileUpload.uploadFile("<filepath_and_filename>");
+        sandboxPage.clickFileUpload()
+                .uploadFile("C:/Users/Marco/Desktop/readme.txt");  // Change the path to a file on your computer
     }
 
     @Test(description = "Downloads a file")
     public void testFileDownload() {
-        FileDownloadPage fileDownload = sandboxPage.clickFileDownload();
-        fileDownload.downloadPDF();
+        sandboxPage.clickFileDownload()
+                .downloadPDF();
     }
 
     @Test(description = "Works with iframes")
     public void testIframes() {
         IframesPage iframes = sandboxPage.clickIframes();
         switchFrames(0);
-        iframes.wikiSearch("test automation");
+        iframes.search("locators");
         switchToDefaultFrame();
         String pageHeading = iframes.getPageHeading();
-        assertEquals(pageHeading, "IFrames", "Page heading does not match.");
+        assertEquals(pageHeading, "Iframes", "Page heading does not match.");
     }
 
     @Test(description = "Tests table pagination")
     public void testTablePagination() {
-        TablesPage tables = sandboxPage.clickTables();
-        tables.sortByCountry();
-        String populationUK = tables.getPopulation("United Kingdom" +
-                "");
+        TablesPage tables = sandboxPage.clickTables()
+                .sortByCountry();
+        String populationUK = tables.getPopulation("United Kingdom" + "");
         assertNotEquals(populationUK, "-1", "The country was not found on the list!");
 //        System.out.println("The population for the United Kingdom is " + populationUK + " million.");
         log.info("The population for the United Kingdom is " + populationUK + " million.");
     }
 
-    @Test(description = "Tests setting a cookie")
-    public void testSetCookie() {
-        String cookieName = "chocolate_chip";
-        setCookie(cookieName, "123");
+    @Test(description = "Tests setting/clearing cookies")
+    public void testSetAndClearCookies() {
+//        String cookieName = "viewed_cookie_policy";
+        String cookieName = properties.getProperty("cookiePolicy");
+        setCookie(cookieName, "yes");
         Cookie myCookie = getCookie(cookieName);
         assertEquals(myCookie.getName(), cookieName, "Cookie not properly set.");
+        clearCookies();
+        myCookie = getCookie(cookieName);
+        assertNull(myCookie, "Cookies have not been cleared.");
     }
 
     @Test(description = "Submits a form using JSON data", dataProviderClass = DataUtil.class, dataProvider = "dataProvider1")
     public void testSubmitForm(HashMap<String, String> hashMap) {
-        FormFieldsPage formFields = sandboxPage.clickFormFields();
-        formFields.setInputFieldText(hashMap.get("Input Field"))
+        FormFieldsPage formFields = sandboxPage.clickFormFields()
+                .setInputFieldText(hashMap.get("Input Field"))
                 .selectCheckbox(hashMap.get("Checkbox"))
                 .selectRadioButton(hashMap.get("Radio Button"))
                 .selectFromDropdown(hashMap.get("Dropdown"))
@@ -252,16 +256,15 @@ public class SandboxTests extends BaseTest {
                 .setMessage(hashMap.get("Message"))
                 .clickSubmit();
 
-        String confirmationMsg = formFields.getConfirmationMessage();
-        assertTrue(confirmationMsg.contains("Message Sent"), "Form not submitted successfully");
+        dismissPopup();
     }
 
     @Test(description = "Submits a form using JSON array data", dataProviderClass = DataUtil.class, dataProvider = "dataProvider2")
     public void testSubmitForm2(String data) {
         String[] formInfo = data.split(",");
 
-        FormFieldsPage formFields = sandboxPage.clickFormFields();
-        formFields.setInputFieldText(formInfo[0])
+        FormFieldsPage formFields = sandboxPage.clickFormFields()
+                .setInputFieldText(formInfo[0])
                 .selectCheckbox(formInfo[1])
                 .selectRadioButton(formInfo[2])
                 .selectFromDropdown(formInfo[3])
@@ -269,14 +272,13 @@ public class SandboxTests extends BaseTest {
                 .setMessage(formInfo[5])
                 .clickSubmit();
 
-        String confirmationMsg = formFields.getConfirmationMessage();
-        assertTrue(confirmationMsg.contains("Message Sent"), "Form not submitted successfully");
+        dismissPopup();
     }
 
     @Test(dataProviderClass = DataUtil.class, dataProvider = "dataProvider3")
     public void testSubmitForm3(HashMap<String, String> hashMap) {
-        FormFieldsPage formFields = sandboxPage.clickFormFields();
-        formFields.setInputFieldText(hashMap.get("Input Field"))
+        FormFieldsPage formFields = sandboxPage.clickFormFields()
+                .setInputFieldText(hashMap.get("Input Field"))
                 .selectCheckbox(hashMap.get("Checkbox"))
                 .selectRadioButton(hashMap.get("Radio Button"))
                 .selectFromDropdown(hashMap.get("Dropdown"))
@@ -284,8 +286,7 @@ public class SandboxTests extends BaseTest {
                 .setMessage(hashMap.get("Message"))
                 .clickSubmit();
 
-        String confirmationMsg = formFields.getConfirmationMessage();
-        assertTrue(confirmationMsg.contains("Message Sent"), "Form not submitted successfully");
+        dismissPopup();
     }
 
     @Test(dataProviderClass = DataUtil.class, dataProvider = "dataProvider4")

@@ -1,5 +1,7 @@
 .idea/
 *.iml
 *.log
-target/
 *.png
+target/
+screnshots/
+SparkReport/

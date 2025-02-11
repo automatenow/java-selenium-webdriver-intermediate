@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import io.automatenow.tests.BaseTest;
+import io.automatenow.core.BaseTest;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,6 +20,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author Marco A. Cruz
+ */
 public class DataUtil extends BaseTest {
 
     @DataProvider
@@ -97,16 +100,16 @@ public class DataUtil extends BaseTest {
 
     @DataProvider
     public static Object[][] dataProvider3() {
-        return readJson("src/main/resources/testData3.json", "data 1");
+        return readJSON("src/main/resources/testData3.json", "data 1");
     }
 
     @DataProvider
     public static Object[][] dataProvider4() {
-        return readJson("src/main/resources/testData3.json", "data 2");
+        return readJSON("src/main/resources/testData3.json", "data 2");
     }
 
-    // This method uses the GSON library to parse JSON data
-    public static Object[][] readJson(String filename, String jsonObj) {
+    // This method uses the Gson library to parse JSON data
+    public static Object[][] readJSON(String filename, String jsonObj) {
         File file = new File(filename);
         JsonElement jsonElement = null;
 

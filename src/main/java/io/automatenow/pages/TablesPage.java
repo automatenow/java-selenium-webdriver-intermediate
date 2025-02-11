@@ -1,5 +1,6 @@
 package io.automatenow.pages;
 
+import io.automatenow.core.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -9,16 +10,17 @@ import java.util.List;
  * @author Marco A. Cruz
  */
 public class TablesPage extends BasePage {
-    private By countrySort = By.cssSelector(".column-2.sorting");
-    private By noNextBtn = By.cssSelector(".paginate_button.next.disabled");
-    private By nextBtn = By.xpath("//a[normalize-space()='Next']");
+    private final By countrySort = By.cssSelector("[aria-label='Country: Activate to sort']");
+    private final By noNextBtn = By.cssSelector(".paginate_button.next.disabled");
+    private final By nextBtn = By.cssSelector("[aria-label='Next']");
 
     public String getItemPrice(String item) {
         return driver.findElement(By.xpath("//td[text()='" + item + "']/following-sibling::td")).getText();
     }
 
-    public void sortByCountry() {
+    public TablesPage sortByCountry() {
         click(countrySort);
+        return this;
     }
 
     /**
@@ -34,9 +36,10 @@ public class TablesPage extends BasePage {
             List<WebElement> countryListedOnCurrentPage = driver.findElements(By.xpath("//table[@id='tablepress-1']//td[normalize-space()='"+ country +"']"));
             List<WebElement> disabledNextBtn = driver.findElements(noNextBtn);
 
-            if (countryListedOnCurrentPage.size() > 0) {
+            if (!countryListedOnCurrentPage.isEmpty()) {
                 foundCountry = true;
-            } else if (disabledNextBtn.size() == 0) {
+            } else if (disabledNextBtn.isEmpty()) {
+                scrollElementIntoView(nextBtn);  // This is sometimes needed!
                 click(nextBtn);
             } else {
                 return "-1";

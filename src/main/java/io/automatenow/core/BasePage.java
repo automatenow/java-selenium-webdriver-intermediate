@@ -1,19 +1,16 @@
-package io.automatenow.pages;
+package io.automatenow.core;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -42,8 +39,6 @@ public class BasePage {
 
             browser = properties.getProperty("browser");
             baseUrl = properties.getProperty("baseUrl");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -57,13 +52,12 @@ public class BasePage {
 
     private void openBrowser() {
             if (browser.equals("chrome")) {
-                WebDriverManager.chromedriver().setup();
                 // Use this to debug ChromeDriver
 //                System.setProperty("webdriver.chrome.verboseLogging", "true");
 
                 // Run in headless mode
 //                ChromeOptions options = new ChromeOptions();
-//                options.addArguments("--headless");
+//                options.addArguments("--headless");  // or: options.setHeadless(true);
 //                options.addArguments("--window-size=1920,1080");
 //                driver = new ChromeDriver(options);
 
@@ -85,10 +79,16 @@ public class BasePage {
             driver.manage().window().maximize();
     }
 
+    /**
+     * Closes all the windows associated with the WebDriver instance and also ends the WebDriver session
+     */
     public void closeBrowser() {
         driver.quit();
     }
 
+    /**
+     * Closes the current window on which the WebDriver instance is focused
+     */
     public void closeWindow() {
         driver.close();
     }
@@ -170,9 +170,8 @@ public class BasePage {
      * @param y Y-coordinate
      */
     public void dragAndDropByOffset(By locator, int x, int y) {
-        Actions actions = new Actions(driver);
         WebElement element = driver.findElement(locator);
-        actions.dragAndDropBy(element, x, y).perform();
+        new Actions(driver).dragAndDropBy(element, x, y).perform();
     }
 
     public void dismissPopup() {
@@ -200,16 +199,38 @@ public class BasePage {
 //        wait.until(ExpectedConditions.textToBe(locator, text));
     }
 
-    public void hoverOverElement(By locator) {
-        WebElement element = driver.findElement(locator);
-        Actions actions = new Actions(driver);
-        actions.moveToElement(element).perform();
+    public void waitForElementValue(By locator, String text) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(12));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(locator, text));
     }
 
+    public void hoverElement(By locator) {
+        WebElement element = driver.findElement(locator);
+        new Actions(driver).moveToElement(element).perform();
+    }
+
+    /**
+     * Scroll the specified element into the center of the viewport
+     * @param locator The element to scroll into view
+     */
     public void scrollElementIntoView(By locator) {
         WebElement element = driver.findElement(locator);
         JavascriptExecutor executor = (JavascriptExecutor)driver;
-        executor.executeScript("arguments[0].scrollIntoView();", element);
+        executor.executeScript("arguments[0].scrollIntoView({block: \"center\"});", element);
+        pause(1);
+    }
+
+    /**
+     * Pauses the test execution for the specified number of seconds.
+     *
+     * @param seconds The number of seconds to pause.
+     */
+    public void pause(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -241,7 +262,7 @@ public class BasePage {
         TakesScreenshot screenshot = (TakesScreenshot) driver;
         File file = screenshot.getScreenshotAs(OutputType.FILE);
         try {
-            FileUtils.copyFile(file, new File("./failed_tests/" + screenshotName + ".png"));
+            FileUtils.copyFile(file, new File("./screenshots/" + screenshotName + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -254,7 +275,7 @@ public class BasePage {
         WebElement element = driver.findElement(locator);
         File file = element.getScreenshotAs(OutputType.FILE);
         try {
-            FileUtils.copyFile(file, new File("./screenshot.png"));
+            FileUtils.copyFile(file, new File("./screenshots/element_screenshot.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -275,9 +296,23 @@ public class BasePage {
     public void setCookie(String name, String value) {
         Cookie cookie = new Cookie(name, value);
         driver.manage().addCookie(cookie);
+        refresh();
     }
 
     public Cookie getCookie(String name) {
         return driver.manage().getCookieNamed(name);
+    }
+
+    public void clearCookies() {
+        driver.manage().deleteAllCookies();
+        refresh();
+    }
+
+    public boolean cookiesCleared() {
+        return (driver.manage().getCookies()).isEmpty();
+    }
+
+    private void refresh() {
+        driver.navigate().refresh();
     }
 }

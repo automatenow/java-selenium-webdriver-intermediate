@@ -2,17 +2,17 @@
   "form info": [
     {
       "Input Field" : "Hello",
-      "Checkbox" : "1",
-      "Radio Button" : "White",
-      "Dropdown" : "Binary",
+      "Checkbox" : "Milk",
+      "Radio Button" : "Red",
+      "Dropdown" : "Yes",
       "Email" : "info@automatenow.io",
       "Message" : "This is a test."
     },
     {
       "Input Field" : "Hello again",
-      "Checkbox" : "3",
+      "Checkbox" : "Water",
       "Radio Button" : "Blue",
-      "Dropdown" : "Decimal",
+      "Dropdown" : "No",
       "Email" : "@@@",
       "Message" : "This is another test."
     }

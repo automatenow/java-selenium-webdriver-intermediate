@@ -1,15 +1,8 @@
-package io.automatenow.utils;
+package io.automatenow.core;
 
-import io.automatenow.pages.BasePage;
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * @author Marco A. Cruz
@@ -28,13 +21,17 @@ public class TestListener extends BasePage implements ITestListener {
     @Override
     public void onTestFailure(ITestResult iTestResult) {
         String methodName = iTestResult.getName();
-        TakesScreenshot screenshot = (TakesScreenshot) driver;
-        File file = screenshot.getScreenshotAs(OutputType.FILE);
-        try {
-            FileUtils.copyFile(file, new File("./failed_tests/" + methodName + ".png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        // TODO don't do this! (code duplication!)
+//        TakesScreenshot screenshot = (TakesScreenshot) driver;
+//        File file = screenshot.getScreenshotAs(OutputType.FILE);
+//        try {
+//            FileUtils.copyFile(file, new File("./screenshots/" + methodName + ".png"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        takeScreenshot(methodName);
         log.error("Test '" + methodName + "' has failed and a screenshot was taken.");
     }
 
